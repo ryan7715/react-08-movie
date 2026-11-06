@@ -1,0 +1,42 @@
+.container {
+    padding: 30px;
+}
+
+.container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.detail {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+.poster {
+    width: 220px;
+    border-radius: 8px;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h2 {
+    margin-bottom: 20px;
+}
+
+.info p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.info h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
