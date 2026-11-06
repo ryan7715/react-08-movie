@@ -1,46 +1,81 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import styles from "./Detail.module.css";
+import SearchBar from "../components/SearchBar.jsx";
+import { Container } from "./Home.jsx";
+import styled from "styled-components";
+
+// eslint-disable-next-line
+export const BackBtn = styled.button`
+  display: block;
+  margin-bottom: 20px;
+  background-color: #ff5959;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: #ffaaaa;
+  }
+`;
+
 
 function Detail() {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const [movie, setMovie] = useState(null);
+  const [detailDescription, setDetailDescription] = useState(null);
 
   useEffect(() => {
     fetch(`https://www.omdbapi.com/?apikey=6a0a8eb4&i=${id}&plot=full`)
       .then((res) => res.json())
-      .then((json) => {
-        setMovie(json);
-      })
+      .then((json) => setDetailDescription(json))
       .catch((err) => console.log(err));
   }, [id]);
 
+  if (!detailDescription) return <p>Loading...</p>;
+
   return (
-    <div className={styles.container}>
-      <button onClick={() => navigate(-1)}>뒤로가기</button>
-
-      {!movie ? (
-        <div>로딩 중입니다...</div>
+    <Container>
+      <div>
+        <BackBtn
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          &larr; 뒤로가기
+        </BackBtn>
+        <SearchBar keyword={""} />
+        <div></div>
+      </div>
+      {detailDescription.Poster ? (
+        <img src={detailDescription.Poster} alt={detailDescription.Title} />
       ) : (
-        <div className={styles.detail}>
-          <img className={styles.poster} src={movie.Poster} alt={movie.Title} />
-
-          <div className={styles.info}>
-            <h2>{movie.Title}</h2>
-
-            <p>개봉 날짜 : {movie.Released}</p>
-            <p>장르 : {movie.Genre}</p>
-            <p>평점 : {movie.imdbRating}</p>
-            <p>감독 : {movie.Director}</p>
-
-            <h3>줄거리</h3>
-            <p>{movie.Plot}</p>
-          </div>
-        </div>
+        <div>"No image"</div>
       )}
-    </div>
+      <div>{detailDescription.Title}</div>
+      <div>
+        <strong>Year</strong>
+        {detailDescription?.Year}
+      </div>
+      <div>
+        <strong>Released</strong>
+        {detailDescription?.Released}
+      </div>
+      <div>
+        <strong>Genre</strong>
+        {detailDescription?.Genre}
+      </div>
+      <div>
+        <strong>Director</strong>
+        {detailDescription?.Director}
+      </div>
+      <div>
+        <strong>Plot</strong>
+        {detailDescription?.Plot}
+      </div>
+    </Container>
   );
 }
 

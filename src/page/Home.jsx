@@ -1,12 +1,23 @@
-import styles from "./Home.module.css"
+import SearchBar from "../components/SearchBar.jsx";
+import styled from "styled-components";
+
+// eslint-disable-next-line
+export const Container = styled.div`
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
 function Home() {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>영화 검색</h1>
-      <p className={styles.message}>보고 싶은 영화 제목을 검색해보세요!!</p>
-    </div>
-  )
+    <Container>
+      <div>
+        <h1>OMD Flicks</h1>
+        <SearchBar keyword={""} />
+      </div>
+    </Container>
+  );
 }
 
 export default Home;
