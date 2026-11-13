@@ -74,6 +74,14 @@ function Search() {
         <div></div>
       </div>
       <List>
+        {/*
+              화면부에서 array에 map을 돌렸을 때, 리턴되는 최상단 태그에는
+              반복적으로 화면을 출력하기 때문에 리액트 엔진이 알아볼 수 있도록
+              일련번호를 붙여서 리턴 시켰어야 함
+              그 속성이 key이고, 그 속성값은 반복 요소를 중 유일한 값을 가졌어야 함
+              이러한 이유로 key 속성이 있기 때문에 Props로 전달되지 않음
+           */}
+
         {list.length > 0
           ? list.map((item) => <MovieCard key={item.imdbID} movie={item} />)
           : !loading && <p>검색결과가 없습니다.</p>}
