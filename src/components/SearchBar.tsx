@@ -30,14 +30,9 @@ const Button = styled.button`
 
 
 // Props의 타입을 지정해주기 위한 방법
-
-//  외부 사용처를 중심으로 수정하는 것
-// SearchBar라는 컴포넌트는 지금 Home과 Search에서 불러오고 있는 상황
-//  => Props에 값을 전달해주는 건, Home, Search
-//  => Home keyword라는 속성 자체가 없고
-//  => Search key word에 string을 넣고 있다.
-
-// Props 타입은 { keyword }: { keyword: string };
+// 내부 코드 진행 상 input 태그의 값으로 input이라는 state가 존재하고
+// 그러므로 input state는 string 타입이어야 하고
+// 그에 대한 초기값인 keyword는 당연히 string 타입이어야 하는구나
 
 
 
@@ -48,10 +43,7 @@ function SearchBar({ keyword }: SearchBarProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // input의 타입이 string | undefined로 했기 때문에
-    // 그에 대한 내로잉을 해주고 trim() 해줘야 함
-    // 근데 if를 통해 블록 스코프로 나뉘었으니
-    // 밖에서 k변수를 만들어주고, if 내부에서 덮어쓰기를 해야함
+
 
     const k = input.trim();
     if (!k) return;
