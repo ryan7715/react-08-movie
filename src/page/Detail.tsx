@@ -1,8 +1,22 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar.jsx";
-import { Container } from "./Home.jsx";
+import SearchBar from "../components/SearchBar.tsx";
+import { Container } from "./Home.tsx";
 import styled from "styled-components";
+
+
+interface MovieDetail {
+  Poster: string;
+  Title: string;
+  Year: string;
+  Released: string;
+  Genre: string;
+  Director: string;
+  Plot: string;
+  Response: string;
+  Error: string;
+}
+
 
 // eslint-disable-next-line
 export const BackBtn = styled.button`
@@ -25,12 +39,20 @@ function Detail() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [detailDescription, setDetailDescription] = useState(null);
+  const [detailDescription, setDetailDescription] = useState<MovieDetail | null>(null);
+
+
 
   useEffect(() => {
+
     fetch(`https://www.omdbapi.com/?apikey=6a0a8eb4&i=${id}&plot=full`)
       .then((res) => res.json())
-      .then((json) => setDetailDescription(json))
+      .then((json: MovieDetail) => {
+        if (json.Response === "False") {
+          console.log(json.Error);
+        }
+        setDetailDescription(json);
+      })
       .catch((err) => console.log(err));
   }, [id]);
 

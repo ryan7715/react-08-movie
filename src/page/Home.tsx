@@ -1,4 +1,4 @@
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/SearchBar.tsx";
 import styled from "styled-components";
 
 // eslint-disable-next-line
@@ -13,7 +13,7 @@ function Home() {
   return (
     <Container>
       <div>
-        <h1>OMD Flicks</h1>
+        <h1>Movie Search</h1>
         <SearchBar keyword={""} />
       </div>
     </Container>

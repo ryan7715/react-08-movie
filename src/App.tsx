@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import Home from "./page/Home.jsx";
-import Search from "./page/Search.jsx";
-import Detail from "./page/Detail.jsx";
-import GlobalStyle from "./page/GlobalStyle.jsx";
+import Home from "./page/Home.tsx";
+import Search from "./page/Search.tsx";
+import Detail from "./page/Detail.tsx";
+import GlobalStyle from "./page/GlobalStyle.tsx";
 
 function App() {
   return (

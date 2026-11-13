@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+
+interface SearchBarProps {
+  keyword: string | null;
+}
+
 
 const Form = styled.form`
   display: flex;
@@ -23,13 +28,31 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function SearchBar({ keyword }) {
+
+// Props의 타입을 지정해주기 위한 방법
+
+//  외부 사용처를 중심으로 수정하는 것
+// SearchBar라는 컴포넌트는 지금 Home과 Search에서 불러오고 있는 상황
+//  => Props에 값을 전달해주는 건, Home, Search
+//  => Home keyword라는 속성 자체가 없고
+//  => Search key word에 string을 넣고 있다.
+
+// Props 타입은 { keyword }: { keyword: string };
+
+
+
+function SearchBar({ keyword }: SearchBarProps) {
   const [input, setInput] = useState(keyword || "");
   const navigate = useNavigate();
 
-  const handleChange = (e) => setInput(e.target.value);
-  const handleSubmit = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // input의 타입이 string | undefined로 했기 때문에
+    // 그에 대한 내로잉을 해주고 trim() 해줘야 함
+    // 근데 if를 통해 블록 스코프로 나뉘었으니
+    // 밖에서 k변수를 만들어주고, if 내부에서 덮어쓰기를 해야함
+
     const k = input.trim();
     if (!k) return;
     // 영문, 숫자, 공백, 일부 기본 특수문자(-, :, ')만 허용하는 정규식

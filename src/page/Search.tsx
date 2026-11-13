@@ -1,10 +1,23 @@
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/SearchBar.tsx";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { Container } from "./Home.jsx";
-import { BackBtn } from "./Detail.jsx";
+import { Container } from "./Home.tsx";
+import { BackBtn } from "./Detail.tsx";
 import styled from "styled-components";
-import MovieCard from "../components/MovieCard.jsx";
+import MovieCard from "../components/MovieCard.tsx";
+
+export interface Movie {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+  Type: string;
+}
+
+interface SearchResponse {
+  Search?: Movie[];
+  Response: string;
+}
 
 const List = styled.ul`
   display: flex;
@@ -19,19 +32,20 @@ function Search() {
   const keyword = searchParams.get("keyword");
   const navigate = useNavigate();
 
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!keyword) return;
+    setLoading(true);
     // eslint-disable-next-line
     setList([]);
     setError("");
 
     fetch(`https://www.omdbapi.com/?apikey=6a0a8eb4&s=${keyword}`)
       .then((res) => res.json())
-      .then((json) => setList(json.Search || []))
+      .then((json: SearchResponse) => setList(json.Search || []))
       .catch((err) => {
         console.log(err);
         setList([]);
@@ -60,9 +74,9 @@ function Search() {
         <div></div>
       </div>
       <List>
-        {Array.isArray(list)
-          ? list.map((item, index) => <MovieCard key={index} movie={item} />)
-          : "검색결과가 없습니다."}
+        {list.length > 0
+          ? list.map((item) => <MovieCard key={item.imdbID} movie={item} />)
+          : !loading && <p>검색결과가 없습니다.</p>}
       </List>
     </Container>
   );
